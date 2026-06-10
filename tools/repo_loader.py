@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 from github import Github
 from github.Auth import Token
-
+from llm import review_file
 # ---------------------------------
 # CONFIG
 # ---------------------------------
@@ -74,3 +74,13 @@ with open(output_filename, "w", encoding="utf-8") as f:
 
 print(f"\nTotal Python files loaded: {len(repo_files)}")
 print(f"Saved to: {output_filename}")
+
+findings = []
+
+for file_path,code in repo_files.items():
+    review=review_file(
+        file_path=file_path,
+        code=code
+    )
+
+    findings.extend(review)
