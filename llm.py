@@ -1,21 +1,7 @@
 from openai import OpenAI
 import json
-from typing import List
-# Direct the client to your local Ollama server
-from pydantic import BaseModel
+from models import ReviewFinding
 from parser import parse_llm_output
-
-class ReviewFinding(BaseModel):
-    file: str
-    issue_type: str
-    severity: str
-    confidence: float
-    reason: str
-    suggested_fix: str
-    line_start: int
-    line_end: int
-
-
 
 client = OpenAI(
     base_url='http://localhost:11434/v1/',
@@ -50,14 +36,23 @@ FILE:
 {path}
 
 TASK:
-Find the SINGLE most important issue in this file.
+Determine whether a real issue exists.
 
-Allowed issue types:
-- bug
-- security
-- performance
-- maintainability
-- missing_edge_case
+A real issue means:
+
+- Bug causing incorrect behavior
+- Security vulnerability
+- Performance problem likely to matter in practice
+- Missing edge case likely to cause runtime failure
+- Maintainability problem that significantly increases risk
+
+Do NOT report style preferences.
+
+Do NOT report hypothetical improvements.
+
+Do NOT report "could be improved" suggestions.
+
+
 
 IMPORTANT RULES:
 
@@ -114,13 +109,13 @@ def review_file(jsonPath:str):
         for path,code in repo_files.items():
             result = review_single_file(path,code)
             all_results.append(result)
-            review_report = {
+        review_report = {
                 "repository": "India-Air-Quality-Analysis",
                 "total_files": len(all_results),
                 "reviews": all_results
             }
 
-            with open("review_results.json", "w", encoding="utf-8") as f:
+        with open("review_results.json", "w", encoding="utf-8") as f:
                 json.dump(review_report, f, indent=4)
 
         return all_results

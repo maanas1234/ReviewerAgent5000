@@ -1,57 +1,76 @@
-[
-    {
-        "file": "City wise comparision 2020 .py",
-        "error": "Extra data: line 14 column 1 (char 581)",
-        "raw_output": "{\n    \"file\": \"City wise comparision 2020 .py\",\n    \"issue_type\": \"performance\",\n    \"severity\": \"medium\",\n    \"confidence\": 0.8,\n    \"reason\": \"The code lacks a clear understanding of data exploration and representation.\", \n    \"suggested_fix\": \"Implement more insightful analyses on the AQI patterns instead of just the average. This example provides a starting point but could benefit from incorporating functions to explore trends based on AQI variation by city or year, or explore any kind of time-series analysis on the data\",\n    \"line_start\": 20,\n    \"line_end\": 35 \n}\n \n\n\n**Explanation:**\n\nThe given code implements a basic bar chart to visualize average AQI for each city.  While it fulfills the objective,  there is room for improvement in terms of data analysis techniques and creating actionable insights from the visualization data:\n\n\n* **Lack of Exploration of AQI Trends**: Instead of just calculating the average AQI, consider exploring how this value changes over time for each city or considering what factors might drive fluctuations.\n\n* **Missing Analysis on Spatial Distribution** :  A deeper analysis could leverage geographic data to correlate areas with specific historical trends and identify contributing factors for varying levels of Pollution\n \n\n\nThe suggested fix is to implement techniques like:\n\n\n* **Descriptive Statistics:** Calculate median, upper quartile, lower quartile, etc., along with frequency distribution to help quantify AQI variance by location.  \n  \n* **Time-Based Analysis** To visualize the fluctuations of AQI over the calendar year in different cities; potentially allowing the analysis and prediction of potential pollution peaks.\n\n\n  Overall improvement needs to increase analytical depth and explore more possibilities, but it's essential to avoid inventing problems and stick to clear identification of issues."
-    },
-    {
-        "file": "cleaning data.py",
-        "issue_type": "missing_edge_case",
-        "severity": "medium",
-        "confidence": 0.75,
-        "reason": "The code counts missing AQI values but doesn't explicitly handle missing data elsewhere.",
-        "suggested_fix": "Consider adding checks for other potential edge cases (e.g., non-numerical columns) to more thoroughly process and clean the dataset.",
-        "line_start": 13,
-        "line_end": 64
-    },
-    {
-        "file": "delhi_jpr 2018  data.py",
-        "issue_type": "missing_edge_case",
-        "severity": "high",
-        "confidence": 0.9,
-        "reason": "The code attempts to calculate the monthly AQI and plotting averages. However, there is a chance that the AQI might be negative for certain months or lack proper accounting of outliers. This can lead to inaccurate analysis results.",
-        "suggested_fix": "Add edge case handling such as ensuring that if the data contains negative values in the 'AQI' column during calculation, display an error. Test this implementation thoroughly with real-world data sets and ensure accuracy through comprehensive testing for negative AQI cases. ",
-        "line_start": 25,
-        "line_end": 25
-    },
-    {
-        "file": "delhi_mumbai.py",
-        "issue_type": "performance",
-        "severity": "low",
-        "confidence": 0.8,
-        "reason": "The code iterates through each row and column of the plot grid with a nested loop for city and year without checking if there are any rows (cities) or columns (years) to process, it is likely that it will create an empty subplot.",
-        "suggested_fix": "Remove or re-iterate and refactor  the nested loops.  ",
-        "line_start": 58,
-        "line_end": 73
-    },
-    {
-        "file": "gas comarision.py",
-        "error": "Extra data: line 14 column 1 (char 492)",
-        "raw_output": "{\n    \"file\": \"gas comarision.py\",\n    \"issue_type\": \"missing_edge_case\",\n    \"severity\": \"high\",\n    \"confidence\": 0.9,\n    \"reason\": \"The code assumes the CSV file 'city_day_cleaned.csv' exists and is readable. It does not check for errors regarding file access or content.\\n\",\n    \"suggested_fix\": \"Include error handling around file reading to detect potential exceptions such as a non-existent file, permissions issues or corrupted data.\", \n    \"line_start\": 8,\n    \"line_end\": 13\n}\n \n\n\n**Explanation:**\n\nWhile the code performs various operations on the dataset, it lacks proper error handling. It assumes that:\n   *  `csv data/city_day_cleaned.csv` exists and is accessible. This might result in a `FileNotFoundError`.   \n   *  The file can readily be read because of its structure and content. Issues could arise from missing headers, an incorrectly formatted CSV, or inconsistent coding conventions across files. \n\nIncluding error handling would make the code more robust and reliable!"
-    },
-    {
-        "file": "seperating 2018.py",
-        "error": "Extra data: line 14 column 1 (char 790)",
-        "raw_output": "{\n    \"file\": \"seperating 2018.py\",\n    \"issue_type\": \"missing_edge_case\",\n    \"severity\": \"high\",\n    \"confidence\": 0.9,\n    \"reason\": \"The code attempts to separate city-wise data for year 2018. However, it needs to handle the scenario if there is no 'City' information specified (e.g., a sample or empty record). Without an edge case handler, this script will fail when applied to real datasets.\",\n    \"suggested_fix\": \"Implement an appropriate exception handling for cases where 'City' column may be missing. For example: \\n* Use a conditional branch `if df_2018['City'].empty` before reading to the csv file\\n* Add error logging and reporting during data processing.\\n* Implement validation for empty city columns in your program flow.\",\n    \"line_start\": 19,\n    \"line_end\": 21\n}\n \n\n\nLet me know if you'd like a more detailed explanation of the issue."
-    },
-    {
-        "file": "tempCodeRunnerFile.py",
-        "issue_type": "missing_edge_case",
-        "severity": "high",
-        "confidence": 0.8,
-        "reason": "The file lacks crucial context about how and where the CSV data is being imported and used. There's no indication of whether this involves reading from a file location, a URL, or any specific type of input source.",
-        "suggested_fix": "Implement clear imports for your source (`csv` module) to ensure proper functionality. Specify the path to the CSV file (e.g., 'data.csv') and handle missing files gracefully.",
-        "line_start": 1,
-        "line_end": 1
-    }
-]
+{
+    "repository": "India-Air-Quality-Analysis",
+    "total_files": 7,
+    "reviews": [
+        {
+            "file": "City wise comparision 2020 .py",
+            "issue_type": "performance",
+            "severity": "high",
+            "confidence": 0.8,
+            "reason": "Plotting in `plt.bar` with a large number of bars on the x-axis (multiple cities) can be time-consuming and increase plot rendering times for the final visual.",
+            "suggested_fix": "Investigate whether using a more efficient plotting method such as line plots or density estimation can improve performance. It might  streamline visualization by reducing bar count, but would trade off detail and customizability on plot structure. Further investigation needed to determine feasibility with accuracy requirements and desired chart outputs.",
+            "line_start": 20,
+            "line_end": 35
+        },
+        {
+            "file": "cleaning data.py",
+            "issue_type": "missing_edge_case",
+            "severity": "high",
+            "confidence": 1.0,
+            "reason": "The code addresses missing AQI values after cleaning but does not consider the potential for a dataset with non-empty values being partially or completely missing in the `df_clean`. This could result in data inconsistencies and erroneous calculations if assumptions are made about remaining data.\nWhile removing rows based on nulls is good practice, it might need adjustments depending on how the AQI data is structured and its context within the larger dataset. A more comprehensive handling of missing values such as imputation strategies would mitigate this point of uncertainty.",
+            "suggested_fix": "Further investigation to explore options like: \n   - **Imputation:** Fill missing AQI values with mean, median or other suitable strategies:\n      python  # Example imputation using the median </b>\n      df['AQI'].fillna(df['AQI'].median())`n\n   - **Data Validation:** Implement checks and data normalization to ensure proper representation of missing values in further analysis. ",
+            "line_start": 26,
+            "line_end": 39
+        },
+        {
+            "file": "delhi_jpr 2018  data.py",
+            "issue_type": "missing_edge_case",
+            "severity": "low",
+            "confidence": 0.75,
+            "reason": "The code extracts 'Month' column to calculate the monthly average AQI.  However, there is no consideration for missing entries or values  in the file.",
+            "suggested_fix": "Add a check for null/empty values before using them in calculations and plot.",
+            "line_start": 17,
+            "line_end": 24
+        },
+        {
+            "file": "delhi_mumbai.py",
+            "issue_type": "performance",
+            "severity": "medium",
+            "confidence": 0.8,
+            "reason": "Repeated calculations performed for the same data in each loop. This method is a bit inefficient.",
+            "suggested_fix": "Instead of iterating through every month individually, calculate monthly AQI only once and store that in a single table. This can be done using Pandas grouping or vector operations to significantly speed up computations.",
+            "line_start": 30,
+            "line_end": 100
+        },
+        {
+            "file": "gas comarision.py",
+            "issue_type": "missing_edge_case",
+            "severity": "high",
+            "confidence": 0.9,
+            "reason": "The code lacks a clear handling for datasets that might have NaN or infinite values in the columns\n  - The `corr_matrix` computation would produce inaccurate correlations if NaN values are present.\n  - A complete analysis of potential issues for real-life application must be considered. ",
+            "suggested_fix": "Implement checks for missing data, and potentially address any errors with imputation or replacement methods.",
+            "line_start": 28,
+            "line_end": 29
+        },
+        {
+            "file": "seperating 2018.py",
+            "issue_type": "missing_edge_case",
+            "severity": "medium",
+            "confidence": 0.7,
+            "reason": "The code filters for year 2018 but lacks an explicit check if the 'City' column contains any non-numeric entries or missing values.",
+            "suggested_fix": "Add a line to validate the 'City' column before filtering to prevent potential errors.",
+            "line_start": 34,
+            "line_end": 35
+        },
+        {
+            "file": "tempCodeRunnerFile.py",
+            "issue_type": "missing_edge_case",
+            "severity": "critical",
+            "confidence": 0.8,
+            "reason": "The code is incomplete without clear logic for how 'csv data' needs to be processed. It doesn't specify the format of the CSV data or what actions should be taken with it.\n This will lead to unexpected behavior and errors if attempted execution occurs without addressing this aspect.",
+            "suggested_fix": " Define the expected `csv data (format, delimiter), including details like: \n   - Data source (`source`, e.g., CSV file, database) -  \n   - Expected contents of a record:\n  - Actions to be performed after loading the data(example: analysis, display, storage).  ",
+            "line_start": 1,
+            "line_end": 1
+        }
+    ]
+}
